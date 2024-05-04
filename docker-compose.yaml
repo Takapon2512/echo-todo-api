@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - dev-postgres
+    environment:
+      - DB_HOST=dev-postgres
+      - DB_USER=udemy
+      - DB_PASSWORD=udemy
+      - DB_NAME=udemy
+      - DB_PORT=5432
+    networks:
+      - lesson
+
+  dev-postgres:
+    image: postgres:15.1-alpine
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: udemy
+      POSTGRES_PASSWORD: udemy
+      POSTGRES_DB: udemy
+    restart: always
+    networks:
+      - lesson
+networks:
+  lesson:
